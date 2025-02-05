@@ -1,5 +1,8 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:food_delivery/constant/constant.dart';
+import 'package:food_delivery/screens/account/header_image.dart';
+import 'package:food_delivery/screens/account/signup.dart';
 import 'package:hexcolor/hexcolor.dart';
 
 class Login extends StatefulWidget {
@@ -33,22 +36,8 @@ class _LoginState extends State<Login> {
             padding: const EdgeInsets.all(10),
             child: Column(
               children: [
-                Center(
-                  child: Padding(
-                    padding: const EdgeInsets.only(top: 25),
-                    child: Container(
-                        width: 240,
-                        height: 292,
-                        decoration: BoxDecoration(
-                          image: DecorationImage(
-                            image: AssetImage(
-                                "lib/assets/images/onboarding_first.png"),
-                            fit: BoxFit.cover,
-                          ),
-                          borderRadius: BorderRadius.all(Radius.circular(10)),
-                        )),
-                  ),
-                ),
+                HeaderImage(
+                    imagePath: "lib/assets/images/onboarding_first.png"),
                 Padding(
                   padding:
                       const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
@@ -224,7 +213,13 @@ class _LoginState extends State<Login> {
                             style: TextStyle(fontSize: 15),
                           ),
                           TextButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  CupertinoPageRoute(
+                                      builder: (context) => Signup()),
+                                );
+                              },
                               child: Text(
                                 "SIGN UP",
                                 style: TextStyle(

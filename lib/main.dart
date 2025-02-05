@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:food_delivery/screens/login/login.dart';
+import 'package:food_delivery/screens/account/login.dart';
 // import 'package:food_delivery/screens/onboarding/first.dart';
 
 void main() {
