@@ -78,11 +78,16 @@ class _LoginState extends State<Login> {
                                 child: TextField(
                                   controller: mailController,
                                   decoration: InputDecoration(
-                                    border: UnderlineInputBorder(),
+                                    enabledBorder: UnderlineInputBorder(
+                                        borderSide:
+                                            BorderSide(color: Colors.grey)),
                                     labelText: "Email",
                                     filled: true,
                                     fillColor: Colors.white,
-                                    icon: Icon(Icons.email_outlined),
+                                    icon: Icon(
+                                      Icons.email_outlined,
+                                      color: Colors.grey,
+                                    ),
                                   ),
                                   style:
                                       TextStyle(backgroundColor: Colors.white),
@@ -105,10 +110,16 @@ class _LoginState extends State<Login> {
                                   controller: passwordController,
                                   obscureText: _obscureText,
                                   decoration: InputDecoration(
+                                    enabledBorder: UnderlineInputBorder(
+                                        borderSide:
+                                            BorderSide(color: Colors.grey)),
                                     filled: true,
                                     fillColor: Colors.white,
                                     labelText: 'Password',
-                                    icon: Icon(Icons.password),
+                                    icon: Icon(
+                                      Icons.password,
+                                      color: Colors.grey,
+                                    ),
                                     suffixIcon: IconButton(
                                       icon: Icon(
                                         // Based on passwordVisible state choose the icon
