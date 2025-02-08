@@ -1,6 +1,6 @@
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
-import 'package:food_delivery/constant/constant.dart';
+import 'package:food_delivery/core/utils/constant.dart';
 import 'package:food_delivery/screens/onboarding/third.dart';
 import 'package:hexcolor/hexcolor.dart';
 

@@ -1,9 +1,27 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:food_delivery/constant/constant.dart';
+import 'package:flutter_pw_validator/Resource/Strings.dart';
+import 'package:flutter_pw_validator/flutter_pw_validator.dart';
+import 'package:food_delivery/core/utils/constant.dart';
+import 'package:food_delivery/core/utils/validator.dart';
 import 'package:food_delivery/screens/account/header_image.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+class TurkishStrings extends FlutterPwValidatorStrings {
+  @override
+  // ignore: overridden_fields
+  final String atLeast = 'En az 8 karakter';
+  @override
+  // ignore: overridden_fields
+  final String uppercaseLetters = '1 büyük harf';
+  @override
+  // ignore: overridden_fields
+  final String lowercaseLetters = '1 küçük harf';
+  @override
+  // ignore: overridden_fields
+  final String specialCharacters = '1 özel karakter';
+}
 
 class Signup extends StatefulWidget {
   const Signup({super.key});
@@ -16,14 +34,9 @@ class _SignupState extends State<Signup> {
   TextEditingController mailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController confirmPasswordController = TextEditingController();
+  bool passwordHasValidate = false;
   String? emailErrorText;
-
-  bool isValidEmail(String email) {
-    // Geçerli bir e-posta adresi için düzenli ifade
-    String pattern = r"^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$";
-    RegExp regex = RegExp(pattern);
-    return regex.hasMatch(email);
-  }
+  String? passwordConfirmErrorText;
 
   @override
   Widget build(BuildContext context) {
@@ -43,26 +56,15 @@ class _SignupState extends State<Signup> {
         body: SingleChildScrollView(
           child: Column(
             children: [
-              HeaderImage(imagePath: "lib/assets/images/onboarding_first.png"),
+              HeaderImage(
+                imagePath: "lib/assets/images/onboarding_first.png",
+              ),
               Padding(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
                 child: Column(
                   spacing: 10,
                   children: [
-                    TextField(
-                      controller: nameController,
-                      decoration: InputDecoration(
-                        labelText: "Name",
-                        hintText: "İsmail Durcan",
-                        icon: Icon(
-                          Icons.contact_emergency_outlined,
-                          color: Colors.grey,
-                        ),
-                        enabledBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(color: Colors.grey)),
-                      ),
-                    ),
                     TextField(
                       controller: mailController,
                       decoration: InputDecoration(
@@ -99,14 +101,32 @@ class _SignupState extends State<Signup> {
                         ),
                         enabledBorder: UnderlineInputBorder(
                             borderSide: BorderSide(color: Colors.grey)),
+                        errorText: passwordConfirmErrorText,
                       ),
+                      onChanged: (value) => confirmPassword(value),
+                    ),
+                    FlutterPwValidator(
+                      width: 400,
+                      height: 120,
+                      minLength: 8,
+                      onSuccess: () {
+                        passwordHasValidate = true;
+                      },
+                      onFail: () {
+                        passwordHasValidate = false;
+                      },
+                      controller: passwordController,
+                      uppercaseCharCount: 1,
+                      lowercaseCharCount: 1,
+                      specialCharCount: 1,
+                      strings: TurkishStrings(),
                     ),
                   ],
                 ),
               ),
               Padding(
                 padding:
-                    const EdgeInsets.symmetric(horizontal: 30, vertical: 20),
+                    const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
                 child: RichText(
                     text: TextSpan(children: [
                   TextSpan(
@@ -134,11 +154,12 @@ class _SignupState extends State<Signup> {
                 height: 45,
                 child: FilledButton(
                   onPressed: () {
-                    if (!isValidEmail(mailController.text)) {
-                      setState(() {
-                        emailErrorText = "Geçersiz e-posta adresi";
-                      });
-                    }
+                    setState(() {
+                      !Validators.isValidEmail(mailController.text)
+                          ? emailErrorText = "Geçersiz e-posta adresi"
+                          : emailErrorText = null;
+                    });
+                    _checkErrorAndShowDialog();
                   },
                   style: FilledButton.styleFrom(
                       backgroundColor: HexColor(primaryColor),
@@ -174,5 +195,50 @@ class _SignupState extends State<Signup> {
         ),
       )),
     );
+  }
+
+  confirmPassword(value) {
+    setState(() {
+      passwordController.text == value
+          ? passwordConfirmErrorText = null
+          : passwordConfirmErrorText = "Parolalar eşleşmiyor!";
+    });
+  }
+
+  void _checkErrorAndShowDialog() {
+    if (mailController.text == "" ||
+        passwordController.text == "" ||
+        confirmPasswordController.text == "") {
+      showAlertDialog("Tüm alanları dolduğunuza emin olun!");
+    } else if (emailErrorText != null) {
+      showAlertDialog(emailErrorText);
+    } else if (!passwordHasValidate) {
+      showAlertDialog("Parolanız gerekli koşulları sağlamıyor!");
+    } else if (passwordConfirmErrorText != null) {
+      showAlertDialog(passwordConfirmErrorText);
+    } else {
+      // başarılı kayıt atılacak.
+    }
+  }
+
+  Widget showAlertDialog(errorText) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text("Hata"),
+          content: Text(errorText!),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(); // Dialog'u kapat
+              },
+              child: Text("Tamam"),
+            ),
+          ],
+        );
+      },
+    );
+    return SizedBox.shrink(); // Return an empty widget
   }
 }

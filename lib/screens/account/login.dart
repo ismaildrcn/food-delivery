@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:food_delivery/constant/constant.dart';
+import 'package:food_delivery/core/utils/constant.dart';
+import 'package:food_delivery/core/utils/validator.dart';
 import 'package:food_delivery/screens/account/header_image.dart';
 import 'package:food_delivery/screens/account/signup.dart';
 import 'package:hexcolor/hexcolor.dart';
@@ -17,6 +18,7 @@ class _LoginState extends State<Login> {
   TextEditingController passwordController = TextEditingController();
   // Initially password is obscure
   bool _obscureText = true;
+  String? emailErrorText;
 
   // Toggles the password show status
   void _toggle() {
@@ -70,6 +72,7 @@ class _LoginState extends State<Login> {
                                     enabledBorder: UnderlineInputBorder(
                                         borderSide:
                                             BorderSide(color: Colors.grey)),
+                                    errorText: emailErrorText,
                                     labelText: "Email",
                                     filled: true,
                                     fillColor: Colors.white,
@@ -143,8 +146,11 @@ class _LoginState extends State<Login> {
                         height: 45,
                         child: FilledButton(
                           onPressed: () {
-                            // Navigator.of(context).push(MaterialPageRoute(
-                            //     builder: (context) => {}));
+                            setState(() {
+                              !Validators.isValidEmail(mailController.text)
+                                  ? emailErrorText = "Geçersiz e-posta adresi"
+                                  : emailErrorText = null;
+                            });
                           },
                           style: FilledButton.styleFrom(
                               backgroundColor: HexColor(primaryColor),
