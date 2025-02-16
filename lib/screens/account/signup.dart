@@ -5,6 +5,7 @@ import 'package:flutter_pw_validator/flutter_pw_validator.dart';
 import 'package:food_delivery/core/utils/constant.dart';
 import 'package:food_delivery/core/utils/validator.dart';
 import 'package:food_delivery/screens/account/header_image.dart';
+import 'package:food_delivery/services/api_service.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -217,7 +218,7 @@ class _SignupState extends State<Signup> {
     } else if (passwordConfirmErrorText != null) {
       showAlertDialog(passwordConfirmErrorText);
     } else {
-      // başarılı kayıt atılacak.
+      ApiService().registerUser(mailController.text, passwordController.text);
     }
   }
 

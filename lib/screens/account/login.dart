@@ -4,6 +4,7 @@ import 'package:food_delivery/core/utils/constant.dart';
 import 'package:food_delivery/core/utils/validator.dart';
 import 'package:food_delivery/screens/account/header_image.dart';
 import 'package:food_delivery/screens/account/signup.dart';
+import 'package:food_delivery/services/api_service.dart';
 import 'package:hexcolor/hexcolor.dart';
 
 class Login extends StatefulWidget {
@@ -150,6 +151,7 @@ class _LoginState extends State<Login> {
                               !Validators.isValidEmail(mailController.text)
                                   ? emailErrorText = "Geçersiz e-posta adresi"
                                   : emailErrorText = null;
+                            ApiService().loginUser(mailController.text, passwordController.text);
                             });
                           },
                           style: FilledButton.styleFrom(
