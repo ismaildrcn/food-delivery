@@ -9,7 +9,7 @@ class HeaderImage extends StatelessWidget {
     super.key,
     required this.imagePath,
     this.width = 240,
-    this.height = 292,
+    this.height = 240,
   });
 
   @override

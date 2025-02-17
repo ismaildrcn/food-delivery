@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:food_delivery/core/utils/constant.dart';
 import 'package:food_delivery/core/utils/validator.dart';
+import 'package:food_delivery/screens/account/forgot.dart';
 import 'package:food_delivery/screens/account/header_image.dart';
 import 'package:food_delivery/screens/account/signup.dart';
 import 'package:food_delivery/services/api_service.dart';
@@ -135,7 +136,13 @@ class _LoginState extends State<Login> {
                       Align(
                           alignment: Alignment.centerRight,
                           child: TextButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                Navigator.push(
+                                    context,
+                                    CupertinoPageRoute(
+                                        builder: (context) =>
+                                            ForgotPassword()));
+                              },
                               child: Text(
                                 "Forgot Button?",
                                 style: TextStyle(
@@ -151,7 +158,8 @@ class _LoginState extends State<Login> {
                               !Validators.isValidEmail(mailController.text)
                                   ? emailErrorText = "Geçersiz e-posta adresi"
                                   : emailErrorText = null;
-                            ApiService().loginUser(mailController.text, passwordController.text);
+                              ApiService().loginUser(
+                                  mailController.text, passwordController.text);
                             });
                           },
                           style: FilledButton.styleFrom(
