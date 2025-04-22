@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:food_delivery/screens/account/login.dart';
+// import 'package:food_delivery/screens/account/login.dart';
+import 'package:food_delivery/screens/main.dart';
 // import 'package:food_delivery/screens/onboarding/first.dart';
 
 void main() {
@@ -13,7 +14,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: Login(),
+      home: MyArea(),
     );
   }
 }
